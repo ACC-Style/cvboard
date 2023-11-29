@@ -3,9 +3,14 @@
 <head>
 <meta charset="<?php bloginfo( 'charset' ); ?>" />
 <meta name="viewport" content="width=device-width" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Red+Hat+Display:wght@200..900&amp;display=swap">
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Wix+Madefor+Display:wght@400..800&amp;display=swap">
+<script src="https://kit.fontawesome.com/71c9d25c4e.js" crossorigin="anonymous"></script>
 <?php wp_head(); ?>
 </head>
-<body <?php body_class(); ?>>
+<body <?php body_class('bg_info-5'); ?>>
 <?php wp_body_open(); ?>
 <div id="wrapper" class="hfeed">
 <header id="header" role="banner">

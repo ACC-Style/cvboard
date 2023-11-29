@@ -16,38 +16,38 @@ cvboard WordPress Theme © 2011-2023 Matt Watier
 
 :root {
     /* hsl(259.33deg 81.82% 21.57%); */
-    --ultra-violet: hsla(270, 29%, 45%, 1);
---verdigris: hsla(173, 50%, 54%, 1);
---lawn-green: hsla(93, 79%, 64%, 1);
---icterine: hsla(62, 87%, 68%, 1);
---taupe: hsla(33, 14%, 25%, 1);
+--royal-purple: hsla(262deg, 78%, 25%, 1); /* 262deg, 78%, 25% */
+--graphite: hsla(240deg, 5%, 33%, 1); 
+--teal: rgb(4, 144, 144);
+--bright-red: hsla(349deg, 90%, 50%, 1);
+--bone: hsla(0, 3%, 49%, 1);
 
---primary-h: 259.33deg;   /* Serene Green */
---primary-s: 81.82%;
---primary-l: 45%;
+--primary-h: 262deg;   /* Royal Purple */
+--primary-s: 78%;
+--primary-l: 25%;
 
---secondary-h: 173deg; /* Soft Purple */
---secondary-s: 79%;
---secondary-l: 54%;
+--secondary-h: 240deg; /* Graphite */
+--secondary-s: 5%;
+--secondary-l: 33%;
 
---highlight-h: 93deg;     /* Lively Coral */
---highlight-s: 79%;
---highlight-l: 64%;
+--highlight-h: 349deg;     /* Bright Red */
+--highlight-s: 90%;
+--highlight-l: 50%;
 
---accent-h: 62deg; /* Gentle Pink */
---accent-s: 87%;
---accent-l: 68%;
+--accent-h: 180deg; /* Teal */
+--accent-s: 96%;
+--accent-l: 38%;
 
---info-h: 33deg;       /* Neutral Taupe */
---info-s: 14%;
---info-l: 25%;
+--info-h: 25;       /* Bone */
+--info-s: 3%;
+--info-l: 50%;
 
 
---font-family_accent: Montserrat, san-serif;
---font-family_display:  Montserrat, san-serif;
---font-family_copy: 'Open Sans', serif;
+--font-family_accent: "Wix Madefor Display", san-serif;
+--font-family_display:  "Wix Madefor Display", san-serif;
+--font-family_copy: 'Red Hat Display', serif;
 
---font-family_ui:   'Open Sans', san-serif;
+--font-family_ui:   'Red Hat Display', san-serif;
 
 --font_light:200;
 --font_regular:400;
@@ -63,3 +63,30 @@ margin: 0;
 padding: 0;
 position:relative;
 }
+.font_copy,.font_ui{
+  --font_light:300;
+  --font_regular:400;
+  --font_medium:500;
+  --font_bold:700;
+  --font_xbold:900; 
+}
+.font_display{
+  --font_light:400;
+  --font_regular:500;
+  --font_medium:600;
+  --font_bold:700;
+  --font_xbold:800; 
+}
+[data-item=hero-title] span {
+  color: inherit;
+  flex: 0 1 auto;
+  isolation: isolate;
+  padding-block: 0.125em;
+  padding-inline: 0 0.35em;
+  position: relative;
+  text-shadow: 2px 2px 2px rgba(0,0,0,.25);
+  font-family: var(--font-family_display);
+  font-weight: var(--font_xbold);
+}
+
+[data-item=hero-title] {line-height: 1.35lh;}

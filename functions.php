@@ -41,35 +41,35 @@ add_action('wp_footer', 'blankslate_footer');
 function blankslate_footer()
 {
     ?>
-    <script>
-        jQuery(document).ready(function ($) {
-            var deviceAgent = navigator.userAgent.toLowerCase();
-            if (deviceAgent.match(/(iphone|ipod|ipad)/)) {
-                $("html").addClass("ios");
-                $("html").addClass("mobile");
-            }
-            if (deviceAgent.match(/(Android)/)) {
-                $("html").addClass("android");
-                $("html").addClass("mobile");
-            }
-            if (navigator.userAgent.search("MSIE") >= 0) {
-                $("html").addClass("ie");
-            }
-            else if (navigator.userAgent.search("Chrome") >= 0) {
-                $("html").addClass("chrome");
-            }
-            else if (navigator.userAgent.search("Firefox") >= 0) {
-                $("html").addClass("firefox");
-            }
-            else if (navigator.userAgent.search("Safari") >= 0 && navigator.userAgent.search("Chrome") < 0) {
-                $("html").addClass("safari");
-            }
-            else if (navigator.userAgent.search("Opera") >= 0) {
-                $("html").addClass("opera");
-            }
-        });
-    </script>
-    <?php
+        <script>
+            jQuery(document).ready(function ($) {
+                var deviceAgent = navigator.userAgent.toLowerCase();
+                if (deviceAgent.match(/(iphone|ipod|ipad)/)) {
+                    $("html").addClass("ios");
+                    $("html").addClass("mobile");
+                }
+                if (deviceAgent.match(/(Android)/)) {
+                    $("html").addClass("android");
+                    $("html").addClass("mobile");
+                }
+                if (navigator.userAgent.search("MSIE") >= 0) {
+                    $("html").addClass("ie");
+                }
+                else if (navigator.userAgent.search("Chrome") >= 0) {
+                    $("html").addClass("chrome");
+                }
+                else if (navigator.userAgent.search("Firefox") >= 0) {
+                    $("html").addClass("firefox");
+                }
+                else if (navigator.userAgent.search("Safari") >= 0 && navigator.userAgent.search("Chrome") < 0) {
+                    $("html").addClass("safari");
+                }
+                else if (navigator.userAgent.search("Opera") >= 0) {
+                    $("html").addClass("opera");
+                }
+            });
+        </script>
+        <?php
 }
 add_filter('document_title_separator', 'blankslate_document_title_separator');
 function blankslate_document_title_separator($sep)
@@ -152,7 +152,8 @@ function blankslate_widgets_init()
             'after_widget' => '</li>',
             'before_title' => '<h3 class="widget-title">',
             'after_title' => '</h3>',
-        ));
+        )
+    );
 }
 add_action('wp_head', 'blankslate_pingback_header');
 function blankslate_pingback_header()
@@ -171,10 +172,10 @@ function blankslate_enqueue_comment_reply_script()
 function blankslate_custom_pings($comment)
 {
     ?>
-    <li <?php comment_class(); ?> id="li-comment-<?php comment_ID(); ?>">
-        <?php echo esc_url(comment_author_link()); ?>
-    </li>
-    <?php
+        <li <?php comment_class(); ?> id="li-comment-<?php comment_ID(); ?>">
+            <?php echo esc_url(comment_author_link()); ?>
+        </li>
+        <?php
 }
 add_filter('get_comments_number', 'blankslate_comment_count', 0);
 function blankslate_comment_count($count)
@@ -191,118 +192,175 @@ function blankslate_comment_count($count)
 
 // Load in the styles. 
 
-function cwpai_enqueue_assets() {
-    wp_enqueue_style( 'bootstrapy', '//assets.acc.org/Arches/latest/dist/css/acc_boot.min.css' );//4.1.44925
-    wp_enqueue_style( 'arches', '//assets.acc.org/Arches/latest/dist/css/acc_uc.min.css' );
-    wp_enqueue_style( 'root', get_template_directory_uri().'/style.css' );
-    wp_enqueue_style( 'fonts', '//fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Open+Sans:wght@300..800&display=swap' );
-    wp_enqueue_script( 'icons', '//kit.fontawesome.com/71c9d25c4e.js', array(), '1.0', true );
+function cwpai_enqueue_assets()
+{
+    wp_enqueue_style('bootstrapy', '//assets.acc.org/Arches/latest/dist/css/acc_boot.min.css'); //4.1.44925
+    wp_enqueue_style('arches', '//assets.acc.org/Arches/latest/dist/css/acc_uc.min.css');
+    wp_enqueue_style('root', get_template_directory_uri() . '/style.css');
+    wp_enqueue_style('fonts', '//fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Open+Sans:wght@300..800&display=swap');
+    wp_enqueue_script('icons', '//kit.fontawesome.com/71c9d25c4e.js', array(), '1.0', true);
 
 }
-add_action( 'wp_enqueue_scripts', 'cwpai_enqueue_assets' );
+add_action('wp_enqueue_scripts', 'cwpai_enqueue_assets');
 
 
-function cwpai_register_custom_post_type() {
+function cwpai_register_custom_post_type()
+{
     $args = array(
         'public' => true,
-        'label'  => 'FAQ',
+        'label' => 'FAQ',
         // Add other arguments as needed
     );
-    register_post_type( 'faq', $args );
+    register_post_type('faq', $args);
     $args = array(
         'public' => true,
-        'label'  => 'Videos',
+        'label' => 'Videos',
         // Add other arguments as needed
     );
-    register_post_type( 'videos', $args );
+    register_post_type('videos', $args);
     $args = array(
         'public' => true,
-        'label'  => 'Partners',
+        'label' => 'Partners',
         // Add other arguments as needed
     );
-    register_post_type( 'partners', $args );
+    register_post_type('partners', $args);
 }
-add_action( 'init', 'cwpai_register_custom_post_type' );
+add_action('init', 'cwpai_register_custom_post_type');
 
 // Check if Advanced Custome Feilds is a part of the build.
-function check_required_plugin() {
-    if ( ! is_plugin_active( 'advanced-custom-fields/acf.php' ) ) {
-        add_action( 'admin_notices', 'required_plugin_notice' );
+function check_required_plugin()
+{
+    if (!is_plugin_active('advanced-custom-fields/acf.php')) {
+        add_action('admin_notices', 'required_plugin_notice');
     }
 }
-add_action( 'admin_init', 'check_required_plugin' );
+add_action('admin_init', 'check_required_plugin');
 
-function required_plugin_notice() {
+function required_plugin_notice()
+{
     ?>
-    <div class="error">
-        <p><?php _e( 'The theme requires the Advanced Custom Fields (ACF) Plugin. Please <a href="' . admin_url( 'plugins.php' ) . '">activate it</a> to enable all features.', 'text-domain' ); ?></p>
-    </div>
-    <?php
+        <div class="error">
+            <p><?php _e('The theme requires the Advanced Custom Fields (ACF) Plugin. Please <a href="' . admin_url('plugins.php') . '">activate it</a> to enable all features.', 'text-domain'); ?></p>
+        </div>
+        <?php
 }
 // Allow svg
-function allow_svg_upload( $mimes ) {
+function allow_svg_upload($mimes)
+{
     $mimes['svg'] = 'image/svg+xml';
     return $mimes;
 }
-add_filter( 'upload_mimes', 'allow_svg_upload' );
+add_filter('upload_mimes', 'allow_svg_upload');
 
 // Register Blocks for the Editor.
-function cwpai_register_video_block() {
+function cwpai_register_video_block()
+{
     wp_register_script(
         'cwpai-video-block',
         get_template_directory_uri() . '/js/block.video.js',
-        array( 'wp-blocks', 'wp-element', 'wp-editor' ),
-        filemtime( get_template_directory() . '/js/block.video.js' )
+        array('wp-blocks', 'wp-element', 'wp-editor'),
+        filemtime(get_template_directory() . '/js/block.video.js')
     );
 
-    register_block_type( 'cwpai/video-block', array(
+    register_block_type('cwpai/video-block', array(
         'editor_script' => 'cwpai-video-block',
-    ) );
+    ));
 }
-add_action( 'init', 'cwpai_register_video_block' );
+add_action('init', 'cwpai_register_video_block');
 
 
-function cwpai_enqueue_block_script() {
+function cwpai_enqueue_block_script()
+{
     wp_enqueue_script(
         'cwpai-video-block',
         get_template_directory_uri() . '/js/block.video.js',
-        array( 'wp-blocks', 'wp-element', 'wp-editor' ),
-        filemtime( get_template_directory() . '/js/block.video.js' )
+        array('wp-blocks', 'wp-element', 'wp-editor'),
+        filemtime(get_template_directory() . '/js/block.video.js')
     );
 }
-add_action( 'enqueue_block_editor_assets', 'cwpai_enqueue_block_script' );
+add_action('enqueue_block_editor_assets', 'cwpai_enqueue_block_script');
 
 // New Main Nav Function
 
-class Custom_Walker_Nav_Menu extends Walker_Nav_Menu {
-    public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
-        $indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
+class Custom_Walker_Nav_Menu extends Walker_Nav_Menu
+{
+    public function start_el(&$output, $item, $depth = 0, $args = array(), $id = 0)
+    {
+        $indent = ($depth) ? str_repeat("\t", $depth) : '';
 
-        $classes = empty( $item->classes ) ? array() : (array) $item->classes;
+        $classes = empty($item->classes) ? array() : (array) $item->classes;
         $classes[] = 'relative';
 
-        $output .= $indent . '<li class="' . implode( ' ', $classes ) . '">';
+        $output .= $indent . '<li class="' . implode(' ', $classes) . '">';
 
         $atts = array();
-        $atts['href'] = ! empty( $item->url ) ? $item->url : '';
+        $atts['href'] = !empty($item->url) ? $item->url : '';
         $atts['class'] = 'inline-block p_3 p-x_5:lg p-x_4:md relative h:bg_secondary-n2 c_secondary-n3 h:c_white expanded-click-area undecorated not-link h:undecorated br_radius m_2';
 
-        $atts = apply_filters( 'nav_menu_link_attributes', $atts, $item, $args, $depth );
+        $atts = apply_filters('nav_menu_link_attributes', $atts, $item, $args, $depth);
 
         $attributes = '';
-        foreach ( $atts as $attr => $value ) {
-            if ( ! empty( $value ) ) {
-                $value = ( 'href' === $attr ) ? esc_url( $value ) : esc_attr( $value );
+        foreach ($atts as $attr => $value) {
+            if (!empty($value)) {
+                $value = ('href' === $attr) ? esc_url($value) : esc_attr($value);
                 $attributes .= ' ' . $attr . '="' . $value . '"';
             }
         }
 
         $item_output = $args->before;
         $item_output .= '<a' . $attributes . '>';
-        $item_output .= $args->link_before . apply_filters( 'the_title', $item->title, $item->ID ) . $args->link_after;
+        $item_output .= $args->link_before . apply_filters('the_title', $item->title, $item->ID) . $args->link_after;
         $item_output .= '</a>';
         $item_output .= $args->after;
 
-        $output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
+        $output .= apply_filters('walker_nav_menu_start_el', $item_output, $item, $depth, $args);
     }
 }
+
+// Add Sponosor/Partners Short Code Loop
+
+function codewp_render_custom_posts_partners($atts)
+{
+    ob_start();
+
+    // Get the custom post type posts
+    $args = array(
+        'post_type' => 'partners',
+        'posts_per_page' => -1,
+        // Retrieve all posts
+    );
+
+    $query = new WP_Query($args);
+
+    if ($query->have_posts()) {
+        echo '<ul class="grid columns_2:lg columns_2:md columns_1 gap_5:lg gap_4 p-t_0 p_4 ul_none no-marker">';
+        while ($query->have_posts()) {
+            $query->the_post();
+            $logo = get_field('logo');
+            $partner_name = get_field('partner_name');
+            $url = get_field('url');
+            // Render your custom fields here
+            // You can use the Advanced Custom Fields functions like `get_field()` to retrieve the field values
+
+            ?>
+            <li class="bg_black-_05 br_1 br_black-_01 br_round br_solid flex flex_column gap-y_3 p-b_4 relative h:bg_black-1">
+                <a data-name="sponsor__name" class="expanded-click-area undecorated" target="_blank" href="<?php echo $url; ?>" title="<?php echo $partner_name; ?>" rel="noopener">
+                <header class="bg_white br_radius m-b_3 m_4 p_3 shadow_overlap-light w_auto">
+                    <div class="relative aspect_16x9 grid justify_center items_center"> 
+                    <img decoding="async" alt="Logo of ACC" class="w_90 m-x_auto self_center bg_contain" src="<?php if($logo) {echo $logo;} ?>">
+                    
+                    </div>
+                </header>
+                <div class="c_primary-n3 font_3 font_display font_regular lh_1 p-x_4 text_center undecorated">
+                    <?php echo $partner_name; ?>
+                </div>
+                </a>
+              </li>
+            <?php
+            }
+        echo '</ul>';
+    }
+    wp_reset_postdata();
+    return ob_get_clean();
+}
+add_shortcode('partner_loop', 'codewp_render_custom_posts_partners');
