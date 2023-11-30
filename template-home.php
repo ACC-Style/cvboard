@@ -7,55 +7,10 @@ get_header();
 
 
 ?>
-<div class="aspect_21x9 bg_primary-n2">
-
-</div>
-<!-- START: Hero Image -->
-<!-- 
-    <div data-item="hero-image-cta"
-    class="hero relative isolation_isolate grid rows_3 rows_2:md columns_4:md columns_5:lg columns_2  overflow_hidden "
-    style="--row-1:2.5rem; --row-2:min-content; --hero-overlay-color: #270a64;--hero-overlay-opacity: .6;">
-    <picture data-item="responsive-hero-image" class="col_all row_all w_100 flex overflow_hidden">
-        <source srcset="<?php echo get_template_directory_uri(); ?>/img/hero/1400x150.jpg" media="(min-width: 1200px)"
-            class="display_none">
-        <source srcset="<?php echo get_template_directory_uri(); ?>/img/hero/1200x300.jpg" media="(min-width: 1024px)"
-            class="display_none">
-        <source srcset="<?php echo get_template_directory_uri(); ?>/img/hero/1024x256.jpg" media="(min-width: 768px)"
-            class="display_none">
-        <source srcset="<?php echo get_template_directory_uri(); ?>/img/hero/600x300.jpg" media="(min-width: 400px)"
-            class="display_none">
-        <img decoding="async" src="<?php echo get_template_directory_uri(); ?>/img/hero/300x450.jpg" alt="Hero Image"
-            class="bg_cover flex_100">
-    </picture>
-
-    <div class="col-end_end col-start_start grid items_center justify_center row-end_end row-start_start">
-
-        <div class="columns_2 columns_4:md columns_5:lg grid hero isolation_isolate max-w_70 overflow_hidden relative rows_2:md rows_3 w_100"
-            style="--row-1:2.5rem; --row-2:min-content; --hero-overlay-color: #270a64;--hero-overlay-opacity: .6;">
-            <div
-                class="relative row-start_start row-end_3 col-start_start col-end_3:md col-end_end p-y_5 m-l_4 m-l_0:md">
-                <h1 data-item="hero-title"
-                    class="c_white m-t_5:lg m-t_4 font_7:lg font_7:md font_5 isolation_isolate relative m-t_0">
-                    <span>Building</span>
-                    <span>a</span>
-                    <span>New</span>
-                    <span>Board</span>
-                    <span>for</span>
-                    <span>Cardiovascular</span>
-                    <span>Medicine</span>
-                </h1>
-                <h4 data-item="cta-title" class="c_white font_display font_medium m-t_0 p-x_4"> </h4>
-
-            </div>
-        </div>
-    </div>
-
-</div>
--->
-<!-- END: Hero Image -->
-<div class="m-t_n5 bg_white m_auto max-w_65 p_5 shadow_bevel-light">
 
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.4/tiny-slider.css">
+<!--[if (lt IE 9)]><script src="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.4/min/tiny-slider.helper.ie8.js"></script><![endif]-->
 <?php
 // Get the ID of the home page
 $home_id = get_option('page_on_front');
@@ -68,24 +23,94 @@ $child_pages_query = new WP_Query(
         'orderby' => 'menu_order',
         'order' => 'ASC',
         'posts_per_page' => -1
-    )
-);
- the_content(); 
+
+        )
+    );
+
+    
+    ?>
+<div class="bg_primary-n2 full-width relative isolation_isolate" >
+    <div id="hero-slider">
+    <?php 
+        the_content(); 
+
+    ?>
+    </div>
+    <div id="CVHeroSliderControls" class="absolute columns_6 flex inset_0 tns-controls" aria-label="Carousel Navigation" tabindex="0">
+        <button class="bg_transparent br_none btn c_white-4 h:c_white items_start  self_center p_5:lg font_4 font_10:lg | m-r_auto" type="button" data-controls="prev" tabindex="-1"><i class="fa-chevron-left fa-thin fa-sharp" aria-hidden="true"></i></button>
+        <button class="bg_transparent br_none btn c_white-4 h:c_white items_start  self_center p_5:lg font_4 font_10:lg | m-l_auto" type="button" data-controls="next" tabindex="-1"><i class="fa-chevron-right fa-thin fa-sharp" aria-hidden="true"></i></button>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.2/min/tiny-slider.js"></script>
+<script>
+  var slider = tns({
+    container: '#hero-slider',
+    items: 1,
+    autoHeight: true,
+    arrowKeys:true,
+    controlsContainer: "#CVHeroSliderControls",
+    loop:true,
+    slideBy: 'page',
+    startIndex: 0,
+    edgePadding: 32,
+  });
+</script>
+<style>
+    .tns-nav{ 
+        position:absolute;
+        top:auto;
+        bottom:3rem;
+        flex-direction:row;
+        display:flex;
+        gap:.5rem;
+        z-index: 1000;
+        justify-content: center;
+        width:100%;
+    }
+    .tns-nav > button{
+        width:1rem;
+        height:1rem;
+        overflow:hidden;
+        line-height:0;
+        background-color: hsla(0,0%,100%,.25)!important;
+        border:none;
+        transition:.5s;
+    }
+    .tns-nav > button:hover{
+
+        background-color: hsla(0,0%,100%,1)!important;
+
+    }
+    .tns-nav > button.tns-nav-active{
+        width:3rem;
+        background-color: hsla(0,0%,100%, .75)!important;
+    }
+</style>
+
+<div id="container" class="grid-page-layout m-t_n5 z_2">
+ 
+ <?php
 if ($child_pages_query->have_posts()):
     $i = 1;
     while ($child_pages_query->have_posts()):
-        $bg_color = "";
+        $container_style = "";
         $headline_color = "";
         $copy_color = "";
+        $show_headline = true;
         switch ($i) {
-            case 2:
-                $bg_color = "bg_primary-n3";
+            case 1:
+                $container_style="bg_white breakout br_radius br_solid br_black-1 shadow_bevel-bold p-x_5:lg p-x_4";
+                $show_headline = false;
+            break;
+            case 3:
+                $container_style = "bg_primary-n3 full-width p-b_5:lg p-b_4";
                 $headline_color = "c_white";
                 $copy_color = "c_white color_inherit";
-                break;
+                break;    
             default:
-                if ($i % 2 == 0) {
-                    $bg_color = "bg_black-3";
+                $container_style = "p-b_5:lg p-b_4";
+                if ($i % 2  == 1 && $i != 1) {
+                    $container_style = $container_style ." bg_black-3 full-width";
                     $headline_color = "c_secondary-n3";
                     $copy_color = "";
                 }
@@ -94,17 +119,20 @@ if ($child_pages_query->have_posts()):
         }
         $child_pages_query->the_post();
         ?>
-                <section class="p-y_5:lg p-y_4 relative <?php echo $bg_color; ?>">
-                    <div class="font-size_up font_copy font_regular m_auto max-w_65 ">
-                        <h1 class="font_10 font_display <?php echo $headline_color; ?>">
-                    <?php the_title() ?>
-                </h1>
-                <div class="p-y_4 reading-typography <?php echo $copy_color; ?>">
-                        <?php
-                        the_content();
-                        ?>
-                        </div>
+                <section class="relative m-b_6 p-t_6 <?php echo $container_style;?>">
+                 <?php if($show_headline){ ?>
+                    <h1 class="font_10:lg font_7:md font_4 font_display <?php echo $headline_color; ?>">
+                        <?php the_title() ?>
+                    </h1>
+                    <?php
+                    };
+                    ?>
+                    <div class="reading-typography <?php echo $copy_color; ?>">
+                    <?php
+                    the_content();
+                    ?>
                     </div>
+
                 </section>
                 <?php
                 $i++;

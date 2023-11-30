@@ -295,7 +295,7 @@ class Custom_Walker_Nav_Menu extends Walker_Nav_Menu
 
         $atts = array();
         $atts['href'] = !empty($item->url) ? $item->url : '';
-        $atts['class'] = 'inline-block p_3 p-x_5:lg p-x_4:md relative h:bg_secondary-n2 c_secondary-n3 h:c_white expanded-click-area undecorated not-link h:undecorated br_radius m_2';
+        $atts['class'] = 'inline-block p_3 p-x_5:lg p-x_4:md relative h:bg_white c_white h:c_secondary expanded-click-area undecorated not-link h:undecorated br_radius m_2';
 
         $atts = apply_filters('nav_menu_link_attributes', $atts, $item, $args, $depth);
 
