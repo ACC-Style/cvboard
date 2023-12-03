@@ -10,15 +10,15 @@
 <script src="https://kit.fontawesome.com/71c9d25c4e.js" crossorigin="anonymous"></script>
 <?php wp_head(); ?>
 </head>
-<body <?php body_class('bg_info-5'); ?>>
+<body <?php body_class('bg_info-5 min-h_100 flex flex_column'); ?>>
 <?php wp_body_open(); ?>
 
-<header id="header" role="banner" class="grid-page-layout fixed t_0 l_0 r_0 z_5">
+<header id="header" role="banner" class="grid-page-layout grid:md flex flex_row t_0 l_0 r_0 z_5">
 <nav  id="menu" role="navigation" itemscope itemtype="https://schema.org/SiteNavigationElement" class="full-width">
 
 <h1 class="left-breakout-to-center grid justify_start items_center m_0 font_xbold c_white"> <?php
 if ( !is_front_page()) 
-{ echo '<a class="h:undecorated" href="' . esc_url( home_url( '/' ) ) . '" title="' . esc_attr( get_bloginfo( 'name' ) ) . '" rel="home" itemprop="url">'; }
+{ echo '<a class="h:undecorated c_white h:c_accent" href="' . esc_url( home_url( '/' ) ) . '" title="' . esc_attr( get_bloginfo( 'name' ) ) . '" rel="home" itemprop="url">'; }
 echo '<span itemprop="name">' . esc_html( get_bloginfo( 'name' ) ) . '</span>';
 if ( !is_front_page() ) { echo '</a>'; }
 ?>
@@ -27,11 +27,14 @@ if ( !is_front_page() ) { echo '</a>'; }
 wp_nav_menu( array(
     'theme_location' => 'main-menu',
     'container' => 'ul',
-    'menu_class' => 'right-breakout-to-center c_white flex flex_row font_0 font_1:md font_2:lg font_display font_medium gap_1 items_center justify_between justify_center m-l_auto:md m-x_0:md m-x_4 m_0 no-marker ul_none w_100 w_auto:md',
+    'menu_class' => 'center-to-right c_white flex flex_row font_0 font_1:md font_2:lg font_display font_medium gap_1 items_center justify_between justify_center m-l_auto:md m-x_0:md m-x_4 m_0 no-marker ul_none w_100 w_auto:md',
     'link_before' => '<span itemprop="name">',
     'link_after' => '</span>',
     'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',
-    'walker' => new Custom_Walker_Nav_Menu()
+	'class' => 'a:br_accent h:bg_accent br_transparent br-b_3 br_solid inline-block p_3 p-x_5:lg p-x_4:md relative c_white expanded-click-area undecorated not-link h:undecorated h:c_white',
+    'sub_class' => 'c_black',
+	'toggle_class' => 'h:bg_accent br_transparent inline-block p_3 relative  bg_transparent br_square c_white expanded-click-area undecorated not-link h:undecorated h:c_white',
+	'walker' => new Custom_Walker_Nav_Menu()
 ) );
 ?>
 	

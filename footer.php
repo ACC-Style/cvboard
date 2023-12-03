@@ -3,7 +3,7 @@
 </div>
 
 
-<div id="subfooter" class="bg_primary c_white font_n2 p-x_4 p-y_4 grid grid-page-layout">
+<div id="subfooter" class="bg_secondary-n3 br-t_3 br_solid br_primary c_white font_n2 p-x_4 p-y_4 grid grid-page-layout m-t_auto">
     <ul class="ul_none display_none:print breakout ul_inline-pipe">
             <li><a href="https://www.acc.org/Footer-Pages/Media-Center" class="c_white-6 h:c_white">Media Center</a></li>
             <li><a href="https://www.acc.org/Footer-Pages/Quick-Start-Guide" class="c_white-6 h:c_white">ACC.org Quick Start Guide</a></li>
@@ -28,6 +28,7 @@
         </div>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 <?php wp_footer(); ?>
 </body>
 </html>

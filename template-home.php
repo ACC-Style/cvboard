@@ -33,7 +33,6 @@ $child_pages_query = new WP_Query(
     <div id="hero-slider">
     <?php 
         the_content(); 
-
     ?>
     </div>
     <div id="CVHeroSliderControls" class="absolute columns_6 flex inset_0 tns-controls" aria-label="Carousel Navigation" tabindex="0">
@@ -52,7 +51,7 @@ $child_pages_query = new WP_Query(
     loop:true,
     slideBy: 'page',
     startIndex: 0,
-    edgePadding: 32,
+    edgePadding: 24,
   });
 </script>
 <style>
@@ -87,47 +86,48 @@ $child_pages_query = new WP_Query(
     }
 </style>
 
-<div id="container" class="grid-page-layout m-t_n5 z_2">
+<div id="container" class="grid-page-layout grid m-t_n5 z_2 gap-y_4">
  
  <?php
 if ($child_pages_query->have_posts()):
     $i = 1;
     while ($child_pages_query->have_posts()):
         $container_style = "";
-        $headline_color = "";
-        $copy_color = "";
+        $headline_style = "";
+        $content_style = "";
         $show_headline = true;
         switch ($i) {
             case 1:
-                $container_style="bg_white breakout br_radius br_solid br_black-1 shadow_bevel-bold p-x_5:lg p-x_4";
+                $container_style="bg_white breakout br_radius br_solid br_black-1 shadow_bevel-bold p-x_6:lg p-x_5:md p-x_4 p-b_6:lg p-b_4:md p-b_6:lg";
+                $content_style='font-size_up';
                 $show_headline = false;
             break;
             case 3:
-                $container_style = "bg_primary-n3 full-width p-b_5:lg p-b_4";
-                $headline_color = "c_white";
-                $copy_color = "c_white color_inherit";
+                $container_style = "bg_primary-n3 full-width p-b_5:lg p-b_4 ";
+                $headline_style = "c_white";
+                $content_style = "c_white color_inherit max-w_65";
                 break;    
             default:
                 $container_style = "p-b_5:lg p-b_4";
                 if ($i % 2  == 1 && $i != 1) {
                     $container_style = $container_style ." bg_black-3 full-width";
-                    $headline_color = "c_secondary-n3";
-                    $copy_color = "";
+                    $headline_style = "c_secondary-n3";
+                    $content_style = " max-w_65";
                 }
                 break;
                 
         }
         $child_pages_query->the_post();
         ?>
-                <section class="relative m-b_6 p-t_6 <?php echo $container_style;?>">
+                <section class="relative m-b_6:lg m-b_4:md m-b_5:lg p-y_6:lg p-y_4 <?php echo $container_style;?>">
                  <?php if($show_headline){ ?>
-                    <h1 class="font_10:lg font_7:md font_4 font_display <?php echo $headline_color; ?>">
+                    <h1 class="font_10:lg font_7:md font_4 font_display <?php echo $headline_style; ?>">
                         <?php the_title() ?>
                     </h1>
                     <?php
                     };
                     ?>
-                    <div class="reading-typography <?php echo $copy_color; ?>">
+                    <div class="reading-typography <?php echo $content_style; ?>">
                     <?php
                     the_content();
                     ?>

@@ -54,6 +54,8 @@ cvboard WordPress Theme © 2011-2023 Matt Watier
 --font_medium:700;
 --font_bold:700;
 --font_xbold:900;
+--custom-font-size-modifier: 1.2;
+
   }
 html, body{
 font-family:var(--font-family_copy);}
@@ -90,6 +92,7 @@ position:relative;
 }
 
 [data-item=hero-title] {line-height: 1.35lh;}
+
 .grid-page-layout {
   --padding-inline: .5rem;
   --content-max-width: 70rem;
@@ -100,8 +103,6 @@ position:relative;
     (var(--breakout-max-width) - var(--content-max-width)) / 2
   );
   --sidebar-width:25rem;
-
-  display: grid;
   grid-template-columns:
         [full-width-start] minmax(var(--padding-inline), 1fr)
         [breakout-start] minmax(0, var(--breakout-size))
@@ -154,9 +155,35 @@ position:relative;
   display: grid;
   grid-template-columns: inherit;
 }
+.content{
+  grid-template-columns:
+  [content-start sidebar-left-start] min(100%, var(--sidebar-width))
+  [sidebar-left-end content-minus-sidebar-left-start center-start] min(
+      calc( var(--content-min-width) - var(--sidebar-width) *2 ),
+      calc( var(--content-max-width) - var(--sidebar-width) *2 )
+  )
+  [sidebar-right-start content-minus-sidebar-right-start center-end] 
+  min(100%, var(--sidebar-width))
+  [content-end sidebar-right-end];
+}
+.content > .center {
+  grid-column: center;
+}
+.content > .sidebar-left {
+  grid-column: sidebar-left;
+}
+.content > .sidebar-right {
+  grid-column: sidebar-right;
+}
+.content-left {
+  grid-column: content-start / sidebar-right-start;
+}
+.content-right {
+  grid-column: sidebar-left-end / content-end;
+}
 
 @media (width < 50rem){
-    .grid-page-layout {
+    .grid-page-layout{
         grid-template-columns:
         [full-width-start] minmax(var(--padding-inline), 1fr)
         [breakout-start] minmax(0, var(--breakout-size))
@@ -175,6 +202,11 @@ position:relative;
     .grid-page-layout > .left-breakout-to-center, .full-width > .left-breakout-to-center {
       grid-column: content;
     }
+    .content {
+      grid-template-columns:
+      [content-start center-start sidebar-left-start sidebar-right-start content-minus-sidebar-right-start] 1fr
+      [content-end sidebar-right-end sidebar-left-end content-minus-sidebar-left-start center-end];
+  }
 }
 img.full-width {
   width: 100%;
@@ -182,8 +214,34 @@ img.full-width {
   object-fit: cover;
 }
 
-
+#header {position:fixed;}
 html:not([data-scroll="0"]) #header {
-background-color:   hsla(var(--primary-h),calc(var(--primary-s) + 5% - var(--primary-s)*.05),calc(var( --primary-l ) - var( --primary-l )*.5),1)!important;
+background-color:  hsla(var(--primary-h),calc(var(--primary-s) + 1.5% - var(--primary-s)*.015),calc(var( --primary-l ) - var( --primary-l )*.15),1)!important;
+border-bottom: 1px solid hsla(0, 3%, 100%, .1);
+
+}
+html body:not(.page-template-template-home) #header {
+  background-color:  hsla(var(--primary-h),calc(var(--primary-s) + 1.5% - var(--primary-s)*.015),calc(var( --primary-l ) - var( --primary-l )*.15),1)!important;
   border-bottom: 1px solid hsla(0, 3%, 100%, .1);
+  position:relative;
+}
+  .br_transparent{
+    border-color: transparent;
+  }
+
+  .active  .a\:br_accent{
+    border-color:var(--accent);
+  }
+
+  .font-size_0{
+    font-size:1em;
+  }
+
+  blockquote {
+    border-left: 5px solid rgba(0,0,0,0.05);
+    padding: 20px;
+    font-size: 1.125em;
+    font-style: italic;
+    margin: 0 0 1.5em;
+    position: relative;
 }

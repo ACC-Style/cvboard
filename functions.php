@@ -224,6 +224,12 @@ function cwpai_register_custom_post_type()
         // Add other arguments as needed
     );
     register_post_type('partners', $args);
+    $args = array(
+        'public' => true,
+        'label' => 'Press Releases',
+        // Add other arguments as needed
+    );
+    register_post_type('pressreleases', $args);
 }
 add_action('init', 'cwpai_register_custom_post_type');
 
@@ -252,50 +258,52 @@ function allow_svg_upload($mimes)
 }
 add_filter('upload_mimes', 'allow_svg_upload');
 
-// Register Blocks for the Editor.
-function cwpai_register_video_block()
-{
-    wp_register_script(
-        'cwpai-video-block',
-        get_template_directory_uri() . '/js/block.video.js',
-        array('wp-blocks', 'wp-element', 'wp-editor'),
-        filemtime(get_template_directory() . '/js/block.video.js')
-    );
-
-    register_block_type('cwpai/video-block', array(
-        'editor_script' => 'cwpai-video-block',
-    ));
-}
-add_action('init', 'cwpai_register_video_block');
-
-
-function cwpai_enqueue_block_script()
-{
-    wp_enqueue_script(
-        'cwpai-video-block',
-        get_template_directory_uri() . '/js/block.video.js',
-        array('wp-blocks', 'wp-element', 'wp-editor'),
-        filemtime(get_template_directory() . '/js/block.video.js')
-    );
-}
-add_action('enqueue_block_editor_assets', 'cwpai_enqueue_block_script');
 
 // New Main Nav Function
 
 class Custom_Walker_Nav_Menu extends Walker_Nav_Menu
 {
-    public function start_el(&$output, $item, $depth = 0, $args = array(), $id = 0)
-    {
+    public function start_el(&$output, $item, $depth = 0, $args = array(), $id = 0) {
         $indent = ($depth) ? str_repeat("\t", $depth) : '';
 
         $classes = empty($item->classes) ? array() : (array) $item->classes;
         $classes[] = 'relative';
-
+        if (in_array('current-menu-item', $item->classes)) {
+            $classes[] = 'active';
+        }
         $output .= $indent . '<li class="' . implode(' ', $classes) . '">';
 
+        // Check if this item has a submenu and is a top-level item
+        
         $atts = array();
         $atts['href'] = !empty($item->url) ? $item->url : '';
-        $atts['class'] = 'inline-block p_3 p-x_5:lg p-x_4:md relative h:bg_white c_white h:c_secondary expanded-click-area undecorated not-link h:undecorated br_radius m_2';
+        if ($depth === 0 && in_array('menu-item-has-children', $item->classes)) {
+            // Parent link classes
+            $atts['class'] = $args->class;
+        } else {
+            // Child link classes
+            $atts['class'] = $args->sub_class;
+        }
+
+        if ($depth === 0) {
+            if (in_array('menu-item-has-children', $item->classes)) {
+                // Parent link classes (top-level item with children)
+                $atts['class'] =  $args->class;
+            } else {
+                // Top-level item without children
+                $atts['class'] =  $args->class;
+            }
+        } else {
+            // Child link classes
+            $atts['class'] = $args->sub_class;
+        }
+
+
+        if ($depth === 0 && in_array('menu-item-has-children', $item->classes)) {
+            $output .= '<div class="flex nowrap flex_row-reverse br-l_1 br-r_1 br_solid br_black-5">';
+            // Parent link button
+            $output .= '<a  href="'.$atts['href'] .'" class="'.$atts['class'] .' p-l_3 p-l_3:md p-l_4:lg">' . apply_filters('the_title', $item->title, $item->ID) . '</a>';
+        }
 
         $atts = apply_filters('nav_menu_link_attributes', $atts, $item, $args, $depth);
 
@@ -303,17 +311,40 @@ class Custom_Walker_Nav_Menu extends Walker_Nav_Menu
         foreach ($atts as $attr => $value) {
             if (!empty($value)) {
                 $value = ('href' === $attr) ? esc_url($value) : esc_attr($value);
-                $attributes .= ' ' . $attr . '="' . $value . '"';
+                $attributes .= ' ' . $attr . '="' . $value . '" ';
             }
         }
 
+        $link_text = apply_filters('the_title', $item->title, $item->ID);
+
         $item_output = $args->before;
-        $item_output .= '<a' . $attributes . '>';
-        $item_output .= $args->link_before . apply_filters('the_title', $item->title, $item->ID) . $args->link_after;
-        $item_output .= '</a>';
+        if ($depth > 0 || !in_array('menu-item-has-children', $item->classes)) {
+            $item_output .= '<a' . $attributes .'">';
+            $item_output .= $args->link_before . $link_text . $args->link_after;
+            $item_output .= '</a>';
+        }
         $item_output .= $args->after;
 
         $output .= apply_filters('walker_nav_menu_start_el', $item_output, $item, $depth, $args);
+    }
+
+    // Override start_lvl method
+    public function start_lvl(&$output, $depth = 0, $args = array()) {
+        if ($depth === 0) {
+            // Dropdown toggle button
+            $output .= '<button class="'. $args->toggle_class .' br-r_1 br_white-3 br_dotted" data-bs-toggle="dropdown" aria-expanded="false">';
+            $output .= '<span class="visually-hidden">Toggle Dropdown</span> <i class="fas fa-solid  faw icon-toggle_plus-minus "></i>';
+            $output .= '</button>';
+        }
+        $output .= '<div class="dropdown-menu br_square w_100 p_4"><ul class="ul_none flex flex_column gap_3">';
+    }
+
+    // Override end_lvl method
+    public function end_lvl(&$output, $depth = 0, $args = array()) {
+        $output .= '</ul></div>';
+        if ($depth === 0) {
+            $output .= '</div>'; // Close btn-group div
+        }
     }
 }
 
@@ -333,7 +364,7 @@ function codewp_render_custom_posts_partners($atts)
     $query = new WP_Query($args);
 
     if ($query->have_posts()) {
-        echo '<ul class="grid columns_2:lg columns_2:md columns_1 gap_5:lg gap_4 p-t_0 p_4 ul_none no-marker">';
+        echo '<ul class="grid columns_3:lg columns_2:md columns_1 gap_5:lg gap_4 p-t_0 p_4 ul_none no-marker">';
         while ($query->have_posts()) {
             $query->the_post();
             $logo = get_field('logo');
@@ -364,3 +395,149 @@ function codewp_render_custom_posts_partners($atts)
     return ob_get_clean();
 }
 add_shortcode('partner_loop', 'codewp_render_custom_posts_partners');
+
+
+
+// Add Sponosor/videos Short Code Loop
+
+function codewp_render_custom_posts_videos($atts)
+{
+    ob_start();
+
+    $atts = shortcode_atts(
+        array(
+            'count' => -1, // Default count value
+            'cols_large' => 3,
+            'cols_medium' => 2,
+
+        ),
+        $atts,
+        'videos_loop'
+    );
+
+    $count = intval($atts['count']);
+
+    // Get the custom post type posts
+    $args = array(
+        'post_type' => 'videos',
+        'posts_per_page' => $count,
+        'meta_key' => 'release_date', // The key of your custom date field
+        'orderby' => 'meta_value_datetime', // or 'meta_value' if the date is stored as a string
+        'order' => 'ASC', // Descending order
+        // Retrieve all posts
+    );
+
+    $query = new WP_Query($args);
+
+    if ($query->have_posts()) {
+        echo '<div class="flex flex_column grid:md columns_'.$atts['cols_medium'].':md columns_'.$atts['cols_large'].':lg gap_4:md gap_5 gap_5:lg">';
+        while ($query->have_posts()) {
+            $query->the_post();
+            $title = get_the_title();
+            $sub_title = get_field('sub_title');
+            $video_emebed = get_field('video_emebed');
+            $banner_image = get_field('banner_image');
+            $thumbnail = get_field('thumbnail');
+            $release_date = get_field('release_date');
+            $teaser_message = get_field('teaser_message');           
+            $description = get_the_content();      
+            $url = esc_url( get_permalink());
+            $pub_Date = new DateTime($release_date);
+            $today_Date = new DateTime();
+            $register_url = get_field('register_url');
+            // Render your custom fields here
+            // You can use the Advanced Custom Fields functions like `get_field()` to retrieve the field values
+
+            $isPast = $pub_Date < $today_Date;
+
+            ?>
+
+<article
+    class="wrapper-container bg_white-9 br_1 br_black-2 br_black-3 br_radius br_solid flex flex_column font_copy relative shadow_overlap-light br-br_square br-bl_square">
+    <div data-type="img-header"
+        class="br-tr_radius br-tl_radius bg-blend_multiply br_1 br_solid br_black-3 bg_cover bg_left m-x_n1 m-t_n1 expand-br_1 aspect_custom-sm bg-blend_multiply br_1 br_solid br_black-3 bg_cover bg_left m-x_n1 m-t_n1 flex_none br-tr_radius br-tl_radius"
+        style='background-image: url(<?php echo $banner_image; ?>); aspect-ratio: 350/80;width: calc(100% + 2px);'>
+    </div>
+    <div class="relative">
+        <?php if( $isPast){ ?>
+        <aside data-type="date"
+            class="float_left m-l_4 m-l_5:lg br-t_0 br_1 br_solid br_black-4 bg_info c_white p-x_4 p-y_4  text_center:md font_display z_3 shadow_overlap-light m-t_n5">
+            <span class="block font-size_down-1 font_xbold lh_0 p-x_2:lg uppercase">Watch</span>
+            <span class="block font-size_up-1 font_light lh_0 p-x_2:lg m-t_2 uppercase">Now</span>
+        </aside>
+        <?php }else{ ?>
+        <aside data-type="date"
+            class="float_left m-l_4 m-l_5:lg br-t_0 br_1 br_solid br_black-4 bg_info c_white p-x_4 p-y_4  text_center:md font_display z_3 shadow_overlap-light m-t_n5">
+            <span class="block font-size_down-1 font_xbold lh_0 p-x_2:lg uppercase"><?php echo $pub_Date->format('M'); ?> </span>
+            <span class="block font-size_up-1 font_light lh_0 p-x_2:lg m-t_2 uppercase"><?php echo $pub_Date->format('d'); ?></span>
+        </aside>
+        <?php } ?>
+    </div>
+    <header class="clear_both p-x_4 p-x_5:lg p-t_2">
+        <span data-type="sub-header"
+            class="font_display font-size_up c_primary-1 m-t_2 m-t_4:lg m-t_3:md m-b_2 lh_0 font_medium block"><?php
+           echo $sub_title ?></span>
+
+        <span data-type="header" class="font_display font-size_up-1 c_primary-n4 m-t_2 m-b_2 lh_1 font_medium"><?php
+            echo $title; ?></span>
+        <div class="font_ui c_primary-n2 font_xbold font-size_down-2 m-t_n2 uppercase" data-type="type"><?php echo 'video' ?></div>
+    </header>
+    <ul class="m-b_4:md p-x_4 p-x_5:lg font-size_down-1 ul_none lh_4 no-marker">
+        <li class="flex flex_row">
+            <i class="fas font-size_up flex_none p-r_3 self_center fa-clock c_black-5"></i>
+            <?php if( $isPast){ ?>
+            <span class="flex_auto inline-block self_start lh_1 font_accent">On Demand</span>
+            <?php }else{ ?>
+            <span class="flex_auto inline-block self_start lh_1 font_accent"><?php echo $pub_Date->format('M. j \@ g:i a'); ?></span>
+            <?php } ?>
+        </li>
+    </ul>
+    <footer class="flex justify_around justify_start m-t_auto gap-x_3 p-t_4 p-t_3:md p-x_5:lg p-x_4 p-b_4">
+         <?php if( $isPast){ ?>
+            <a data-type="url" href="<?php echo $url; ?>" target="_blank"
+            class="bg_primary h:undecorated br_none br_primary-n3 br_radius c_white ease_out f:outline_none flex_auto flex_shrink not-link font_medium font_ui h:bg_primary-n2 h:c_white inline-block lh_0 m-b_2 max-w_20:md p-x_4 p-y_3 shadow_overlap-light text_center:md transition_1 w_auto"
+            rel="noopener">
+            <span class="flex">
+               
+                <span class="flex_grow">Watch</span>
+              
+            </span>
+        </a> <?php }else{ 
+            if($register_url){
+            ?>
+              <a data-type="url" href="<?php echo $register_url; ?>" target="_blank"
+            class="bg_primary h:undecorated br_none br_primary-n3 br_radius c_white ease_out f:outline_none flex_auto flex_shrink not-link font_medium font_ui h:bg_primary-n2 h:c_white inline-block lh_0 m-b_2 max-w_20:md p-x_4 p-y_3 shadow_overlap-light text_center:md transition_1 w_auto"
+            rel="noopener">
+            <span class="flex">
+                <span class="flex_grow">Register</span>
+            </span>
+        </a>
+            <?php
+            }else{
+            ?>
+            <div data-type="url-missing"
+            class="bg_secondary br_none br_secondary-n3 br_radius disabled opacity_5 c_white ease_out f:outline_none flex_auto flex_shrink not-link font_medium font_ui inline-block lh_0 m-b_2 max-w_20:md p-x_4 p-y_3 shadow_overlap-light text_center:md transition_1 w_auto"
+            rel="noopener">
+                <span class="flex">
+                    <span class="flex_grow">Coming Soon</span>
+                </span>
+            </div>
+            <?php              
+            }
+            ?> 
+            
+          
+            <?php } ?>
+    </footer>
+    </article>
+
+
+            
+            <?php
+            }
+        echo '</div>';
+    }
+    wp_reset_postdata();
+    return ob_get_clean();
+}
+add_shortcode('videos_loop', 'codewp_render_custom_posts_videos');
