@@ -175,10 +175,10 @@ position:relative;
 .content > .sidebar-right {
   grid-column: sidebar-right;
 }
-.content-left {
+.content > .content-left {
   grid-column: content-start / sidebar-right-start;
 }
-.content-right {
+.content > .content-right {
   grid-column: sidebar-left-end / content-end;
 }
 
