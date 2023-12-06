@@ -8,15 +8,26 @@
 <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Red+Hat+Display:wght@200..900&amp;display=swap">
 <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Wix+Madefor+Display:wght@400..800&amp;display=swap">
 <script src="https://kit.fontawesome.com/71c9d25c4e.js" crossorigin="anonymous"></script>
+<!-- Google Tag Manager --> 
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': 
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], 
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src= 
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f); 
+})(window,document,'script','dataLayer','GTM-NQZ7ND3P');</script> 
+<!-- End Google Tag Manager --> 
 <?php wp_head(); ?>
 </head>
-<body <?php body_class('bg_info-5 min-h_100 flex flex_column'); ?>>
+<body <?php body_class('bg_info-5 min-h_100 flex flex_column'); ?> >
+<!-- Google Tag Manager (noscript) --> 
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NQZ7ND3P" 
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> 
+<!-- End Google Tag Manager (noscript) --> 
 <?php wp_body_open(); ?>
 
 <header id="header" role="banner" class="grid-page-layout grid:md flex flex_row t_0 l_0 r_0 z_5">
 <nav  id="menu" role="navigation" itemscope itemtype="https://schema.org/SiteNavigationElement" class="full-width">
 
-<h1 class="left-breakout-to-center grid justify_start items_center m_0 font_xbold c_white"> <?php
+<h1 class="left-breakout-to-center grid:md text_center justify_start items_center m_0 font_xbold c_white"> <?php
 if ( !is_front_page()) 
 { echo '<a class="h:undecorated c_white h:c_accent" href="' . esc_url( home_url( '/' ) ) . '" title="' . esc_attr( get_bloginfo( 'name' ) ) . '" rel="home" itemprop="url">'; }
 echo '<span itemprop="name">' . esc_html( get_bloginfo( 'name' ) ) . '</span>';
@@ -27,7 +38,7 @@ if ( !is_front_page() ) { echo '</a>'; }
 wp_nav_menu( array(
     'theme_location' => 'main-menu',
     'container' => 'ul',
-    'menu_class' => 'center-to-right c_white flex flex_row font_0 font_1:md font_2:lg font_display font_medium gap_1 items_center justify_between justify_center m-l_auto:md m-x_0:md m-x_4 m_0 no-marker ul_none w_100 w_auto:md',
+    'menu_class' => 'center-to-right c_white flex flex_row font_0 font_1:md font_2:lg font_display font_medium gap_1 items_center justify_between:md justify_center m-l_auto:md m_0 no-marker ul_none w_100 w_auto:md',
     'link_before' => '<span itemprop="name">',
     'link_after' => '</span>',
     'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',

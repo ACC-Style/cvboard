@@ -213,8 +213,22 @@ function allow_svg_upload($mimes)
 }
 add_filter('upload_mimes', 'allow_svg_upload');
 
+// Remove Comments
+function remove_comments_admin_menu() {
+    remove_menu_page('edit-comments.php');
+}
+add_action('admin_menu', 'remove_comments_admin_menu');
+function remove_comments_dashboard_widget() {
+    remove_meta_box('dashboard_recent_comments', 'dashboard', 'normal');
+}
+add_action('wp_dashboard_setup', 'remove_comments_dashboard_widget');
 
+// Removing basic posts
 
+function remove_posts_menu() {
+    remove_menu_page('edit.php');
+}
+add_action('admin_menu', 'remove_posts_menu');
 
 include ''. get_template_directory() . '/functions/custom_post_setup.php';
 include ''. get_template_directory() . '/functions/main_nav_walker.php';

@@ -17,6 +17,7 @@ class Custom_Walker_Nav_Menu extends Walker_Nav_Menu
         
         $atts = array();
         $atts['href'] = !empty($item->url) ? $item->url : '';
+        
         if ($depth === 0 && in_array('menu-item-has-children', $item->classes)) {
             // Parent link classes
             $atts['class'] = $args->class;
@@ -40,9 +41,9 @@ class Custom_Walker_Nav_Menu extends Walker_Nav_Menu
 
 
         if ($depth === 0 && in_array('menu-item-has-children', $item->classes)) {
-            $output .= '<div class="flex nowrap flex_row-reverse br-l_1 br-r_1 br_solid br_black-5">';
+            $output .= '<div class="relative isolation_isolate br-r_1 br-l_1 br_0 br_solid br_white-3">';
             // Parent link button
-            $output .= '<a  href="'.$atts['href'] .'" class="'.$atts['class'] .' p-l_3 p-l_3:md p-l_4:lg">' . apply_filters('the_title', $item->title, $item->ID) . '</a>';
+            $output .= '<a  href="'.$atts['href'] .'" class="'.$atts['class'] .' p-l_5 p-l_6:lg">' . apply_filters('the_title', $item->title, $item->ID) . '</a>';
         }
 
         $atts = apply_filters('nav_menu_link_attributes', $atts, $item, $args, $depth);
@@ -56,7 +57,11 @@ class Custom_Walker_Nav_Menu extends Walker_Nav_Menu
         }
 
         $link_text = apply_filters('the_title', $item->title, $item->ID);
-
+        if ($item->url == home_url('/')) {
+            // Replace link text with Font Awesome icon for home
+            $link_text = '<i class="fas fa-solid fa-home"></i>';
+        }
+    
         $item_output = $args->before;
         if ($depth > 0 || !in_array('menu-item-has-children', $item->classes)) {
             $item_output .= '<a' . $attributes .'">';
@@ -72,7 +77,7 @@ class Custom_Walker_Nav_Menu extends Walker_Nav_Menu
     public function start_lvl(&$output, $depth = 0, $args = array()) {
         if ($depth === 0) {
             // Dropdown toggle button
-            $output .= '<button class="'. $args->toggle_class .' br-r_1 br_white-3 br_dotted" data-bs-toggle="dropdown" aria-expanded="false">';
+            $output .= '<button class="absolute b_0 bg_transparent br_square br_transparent c_white expanded-click-area h:bg_accent h:c_white h:undecorated inline-block l_0 not-link p-x_2 p-x_4:lg relative t_0 undecorated z_2 h:bg_accent" data-bs-toggle="dropdown" aria-expanded="false">';
             $output .= '<span class="visually-hidden">Toggle Dropdown</span> <i class="fas fa-solid  faw icon-toggle_plus-minus "></i>';
             $output .= '</button>';
         }

@@ -4,10 +4,14 @@ Template Name: Learn More Template
 */
 
 get_header();
-
+$pageID = '';
 
 ?>
-<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
+<?php if ( have_posts() ) : 
+    while ( have_posts() ) :
+    the_post();
+    $page_id = get_the_ID();
+    ?>
 <article id="post-<?php the_ID(); ?>" <?php post_class( 'reading-typography grid grid-page-layout z_2 bg_white'); ?>>
 <div class="p_4 p_5:lg"><header class="header">
 <h1 class="entry-title" itemprop="name"><?php the_title(); ?></h1> <?php edit_post_link(); ?>
@@ -20,66 +24,52 @@ get_header();
 </div>
 </article>
 <?php endwhile; endif; ?>
-<section class='reading-typography grid-page-layout grid'>
-    <div class="full-width bg_secondary-4">
-    <div class="p_4 p-x_5:lg">
-<h2>Frequently Asked Questions</h2>
-
+<div class="grid grid-page-layout">
 <?php
-// Arguments for the query
-$args = array(
-    'post_type' => 'faq', // Custom post type 'faq'
-    'posts_per_page' => -1, // Get all posts
+
+
+$child_pages_query = new WP_Query(
+    array(
+        'post_type' => 'page',
+        'post_parent' => $page_id,
+    )
 );
 
-// The Query
-$faq_query = new WP_Query($args);
+$output = ""; // Initialize the output variable
 
-// The Loop
-if ($faq_query->have_posts()) {
-    while ($faq_query->have_posts()) {
-        $faq_query->the_post();
-        ?>
+if ($child_pages_query->have_posts()):
+    $i = 1;
+    while ($child_pages_query->have_posts()):
+        $child_pages_query->the_post();
 
-        <header id="accordion_header_<?php the_ID(); ?>"
-            class="flex flex_row sticky t_n2 bg_white shadow_overlap-light br_solid br_1 br_black-2 z_2 relative collapsed"
-            aria-expanded="false" data-bs-toggle="collapse" data-bs-target="#accordion_content_<?php the_ID(); ?>"
-            aria-controls="accordion_content_<?php the_ID(); ?>">
-            <div class="h:bg_primary-5 m_2 c_primary-n2 h:c_primary-n4 br_radius expanded-click-area">
-                <div class="flex_none">
-                    <span class="fa-stack">
-                        <i class="fas fa-minus fa-stack-1x"></i>
-                        <i class="fas fa-minus rotate_90 a:rotation fa-stack-1x "></i>
-                    </span>
-                </div>
-            </div>
-            <div class="font-size_up flex_auto flex flex_row justify_center p-y_2">
-                <div class="flex_auto self_center reading-typography no-margins">
-                    <h3 class="lh_2 max-w_50 c_primary-n2">
-                        <?php the_title(); ?>
-                    </h3>
-                </div>
-            </div>
-        </header>
-        <main id="accordion_content_<?php the_ID(); ?>" class="bg_white-9 br-bl_radius br-br_radius m-b_3 m-x_0 m-x_3:md p_3 p_4:md reading-typography shadow_emboss-light tab-content transition_4 collapse" aria-labelledby="accordion_header_<?php the_ID(); ?>">
-            <div class="reading-typography">
-                <?php the_content(); ?>
-            </div>
-        </main>
 
-        <?php
-    }
-} else {
-    // No posts found
-    echo '<p>No FAQs found.</p>';
-}
+        $headline_style = "";
+        $content_style = "";
+        $show_headline = true;
+        $container_style = "p-b_5:lg p-b_4";
+        
+        if ($i % 2 == 1 ) {
+            $container_style .= " bg_secondary-4 full-width";
+            $headline_style = "c_secondary-n3";
+            $content_style = "max-w_65";
+        }
 
-// Restore original Post Data
-wp_reset_postdata();
+        $output .= "<section class='relative m-b_6:lg m-b_4:md m-b_5:lg p-y_6:lg p-y_4 {$container_style}'>";
+        if($show_headline) {
+            $output .= "<h1 class='font_10:lg font_7:md font_4 font_display {$headline_style}'>" . get_the_title() . "</h1>";
+        }
+        $output .= "<div class='reading-typography {$content_style}'>" . do_shortcode(get_the_content()) . "</div>";
+
+        $output .= "</section>";
+
+        $i++;
+    endwhile;
+endif;
+
+echo $output;
 ?>
-</div>
-</div>
-</section>
 
+
+</div>
 
 <?php get_footer(); ?>
