@@ -36,7 +36,7 @@ function custom_timeline_shortcode($atts) {
 
     // Query for custom post types
     $args = [
-        'post_type' => ['milestones', 'pressrelease', 'videos'],
+        'post_type' => ['milestones', 'pressreleases', 'videos'],
         'posts_per_page' => -1, // Get all posts
         'meta_key' => 'release_date',
         'orderby' => 'meta_value',
@@ -100,10 +100,11 @@ function custom_timeline_shortcode($atts) {
                     $icon = 'fa-bookmark';
                     break;
                 case 'videos':
+                    $content = get_field('teaser_message');
                     $icon = 'fa-film';
                     $CTA_text = 'Watch';
                     break;
-                case 'pressrelease':
+                case 'pressreleases':
                     $content = get_field('teaser_message');
                     $icon = 'fa-newspaper';
                     $CTA_text = 'Read';

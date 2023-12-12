@@ -16,6 +16,8 @@ function required_plugin_notice()
         </div>
         <?php
 }
+
+// Replace bellow this line.
 add_action( 'acf/include_fields', function() {
 	if ( ! function_exists( 'acf_add_local_field_group' ) ) {
 		return;
@@ -440,7 +442,7 @@ add_action( 'acf/include_fields', function() {
 	'fields' => array(
 		array(
 			'key' => 'field_656b8e17a72c4',
-			'label' => 'release_date',
+			'label' => 'Release Date',
 			'name' => 'release_date',
 			'aria-label' => '',
 			'type' => 'date_time_picker',
@@ -455,6 +457,26 @@ add_action( 'acf/include_fields', function() {
 			'display_format' => 'F j, Y g:i a',
 			'return_format' => 'Y-m-d H:i:s',
 			'first_day' => 1,
+		),
+		array(
+			'key' => 'field_6578676ac5828',
+			'label' => 'Teaser Message',
+			'name' => 'teaser_message',
+			'aria-label' => '',
+			'type' => 'textarea',
+			'instructions' => '',
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array(
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'default_value' => '',
+			'maxlength' => 250,
+			'rows' => '',
+			'placeholder' => '',
+			'new_lines' => '',
 		),
 	),
 	'location' => array(
@@ -565,24 +587,6 @@ add_action( 'acf/include_fields', function() {
 			'preview_size' => 'medium',
 		),
 		array(
-			'key' => 'field_656b4322c1f7d',
-			'label' => 'Release Date',
-			'name' => 'release_date',
-			'aria-label' => '',
-			'type' => 'date_time_picker',
-			'instructions' => '',
-			'required' => 1,
-			'conditional_logic' => 0,
-			'wrapper' => array(
-				'width' => '',
-				'class' => '',
-				'id' => '',
-			),
-			'display_format' => 'd/m/Y g:i a',
-			'return_format' => 'Y-m-d H:i:s',
-			'first_day' => 1,
-		),
-		array(
 			'key' => 'field_656b43727dc33',
 			'label' => 'Thumbnail',
 			'name' => 'thumbnail',
@@ -606,26 +610,6 @@ add_action( 'acf/include_fields', function() {
 			'max_size' => '',
 			'mime_types' => 'jpg,png',
 			'preview_size' => 'thumbnail',
-		),
-		array(
-			'key' => 'field_656b445af1489',
-			'label' => 'Teaser Message',
-			'name' => 'teaser_message',
-			'aria-label' => '',
-			'type' => 'textarea',
-			'instructions' => '',
-			'required' => 0,
-			'conditional_logic' => 0,
-			'wrapper' => array(
-				'width' => '',
-				'class' => '',
-				'id' => '',
-			),
-			'default_value' => '',
-			'maxlength' => 250,
-			'rows' => '',
-			'placeholder' => '',
-			'new_lines' => '',
 		),
 		array(
 			'key' => 'field_656b7a068363e',
