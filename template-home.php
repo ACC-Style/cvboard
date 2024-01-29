@@ -34,17 +34,20 @@ if ($heroslides_query->have_posts()) :
 ?>
 
         <!-- Your HTML structure -->
-        <div class="aspect_21x9:lg aspect_16x9:md aspect_2x3 lg p-y_6:lg relative <?php echo $background_color_class;?>">
-            <div class="grid:md flex flex_column justify_center items_center absolute inset_0 grid-page-layout">
+		<div>
+        <div class="aspect_16x9:md aspect_2x3 aspect_3x1:lg grid justify_center lg p-y_6:lg relative <?php echo $background_color_class;?>">
+            <div class="grid:md flex flex_column justify_center items_center inset_0 grid-page-layout">
                 <div class="left-breakout-to-center p-x_6 p-x_4:md p-x_0:lg">
                     <img src="<?php echo esc_url($image_src); ?>"
                          class="bg_contain w_100">
                 </div>
-                <div class="reading-typography c_white color_inherit font_10:lg font_5:md font_3 p-x_4 center-to-right p-x_5:lg self_start self_center:md">
+                <div class="reading-typography c_white color_inherit font_10:lg font_5:md font_3 p-x_4 center-to-right p-x_5:lg self_start self_center:md m-t_5 m-t_0:md">
                     <h1 class="font-size_up-2 text_center text_left:md"><?php echo esc_html($label); ?></h1>
                 </div>
             </div>
         </div>
+
+			        </div>
 
 <?php
     endwhile;
@@ -136,14 +139,14 @@ if ($child_pages_query->have_posts()):
                 $show_headline = false;
             break;
             case 3:
-                $container_style = "bg_primary-n3 full-width p-b_5:lg p-b_4 ";
+                $container_style = "bg_primary-n1 full-width p-b_5:lg p-b_4 reading-typography";
                 $headline_style = "c_white";
                 $content_style = "c_white color_inherit max-w_65";
                 break;    
             default:
-                $container_style = "p-b_5:lg p-b_4";
+                $container_style = "p-b_5:lg p-b_4 reading-typography ";
                 if ($i % 2  == 1 && $i != 1) {
-                    $container_style = $container_style ." bg_black-3 full-width";
+                    $container_style = $container_style ." bg_black-3 full-width ";
                     $headline_style = "c_secondary-n3";
                     $content_style = " max-w_65";
                 }
@@ -160,7 +163,7 @@ if ($child_pages_query->have_posts()):
                     <?php
                     };
                     ?>
-                    <div class="reading-typography <?php echo $content_style; ?>">
+                    <div class="m-t_4:lg m-t_3:md <?php echo $content_style; ?>">
                     <?php
                     the_content();
                     ?>

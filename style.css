@@ -217,13 +217,12 @@ img.full-width {
 
 #header {position:fixed;}
 html:not([data-scroll="0"]) #header {
-background-color:  hsla(var(--primary-h),calc(var(--primary-s) + 1.5% - var(--primary-s)*.015),calc(var( --primary-l ) - var( --primary-l )*.15),1)!important;
-border-bottom: 1px solid hsla(0, 3%, 100%, .1);
+  border-bottom: 1px solid hsla(var(--primary-h), var(--primary-s), var(--primary-l), .1);
+
 
 }
 html body:not(.page-template-template-home) #header {
-  background-color:  hsla(var(--primary-h),calc(var(--primary-s) + 1.5% - var(--primary-s)*.015),calc(var( --primary-l ) - var( --primary-l )*.15),1)!important;
-  border-bottom: 1px solid hsla(0, 3%, 100%, .1);
+  border-bottom: 1px solid hsla(var(--primary-h), var(--primary-s), var(--primary-l), .1);
   position:relative;
 }
   .br_transparent{
@@ -245,4 +244,9 @@ html body:not(.page-template-template-home) #header {
     font-style: italic;
     margin: 0 0 1.5em;
     position: relative;
+}
+
+.custom-logo {
+  max-width: 150px; /* Adjust as needed */
+  height: auto;
 }

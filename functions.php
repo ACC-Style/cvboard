@@ -223,6 +223,38 @@ function remove_comments_dashboard_widget() {
 }
 add_action('wp_dashboard_setup', 'remove_comments_dashboard_widget');
 
+// Custom Logo Support
+add_theme_support('custom-logo', array(
+    'height'      => 160,
+    'width'       => 575,
+    'flex-height' => true,
+    'flex-width'  => true,
+    'header-text' => array('site-title', 'site-description'),
+));
+
+// Custom Logo Support
+function yourtheme_customize_register($wp_customize) {
+    // Add setting for alternate logo
+    $wp_customize->add_setting('alternate_logo', array(
+        'default'           => '',
+        'sanitize_callback' => 'absint' // This is because logo IDs are integers.
+    ));
+
+    // Add control for alternate logo
+    $wp_customize->add_control(new WP_Customize_Cropped_Image_Control($wp_customize, 'alternate_logo_control', array(
+        'label'    => 'Alternate Logo',
+        'section'  => 'title_tagline', // This is the section where it will appear
+        'settings' => 'alternate_logo',
+        'width'    => 575,
+        'height'   => 160,
+        'flex-height' => true,
+        'flex-width'  => true,
+        'header-text' => array('site-title', 'site-description'),
+    )));
+}
+
+add_action('customize_register', 'yourtheme_customize_register');
+
 // Removing basic posts
 
 function remove_posts_menu() {
@@ -234,3 +266,57 @@ include ''. get_template_directory() . '/functions/custom_post_setup.php';
 include ''. get_template_directory() . '/functions/main_nav_walker.php';
 include ''. get_template_directory() . '/functions/acf_setup.php';
 include ''. get_template_directory() . '/functions/shortcodes.php';
+
+
+
+// Last Updated
+function get_last_updated_date() {
+    // Try to get the last updated date from transients
+    $last_updated = get_transient('last_updated_date');
+
+    // Check if the transient exists and is not expired
+    if ($last_updated === false) {
+        // Same query as before
+        $args = array(
+            'post_type'      => array('post', 'page', 'video', 'partner'),
+            'posts_per_page' => -1,
+            'fields'         => 'ids',
+            'post_status'    => 'publish',
+        );
+
+        $query = new WP_Query($args);
+        $latest_date = 0;
+
+        if ($query->have_posts()) {
+            foreach ($query->posts as $id) {
+                $modified_date = get_post_modified_time('U', false, $id);
+                if ($modified_date > $latest_date) {
+                    $latest_date = $modified_date;
+                }
+            }
+        }
+
+        if ($latest_date != 0) {
+            $last_updated = date('F Y', $latest_date);
+        } else {
+            $last_updated = date('F Y');
+        }
+
+        // Set a new transient for a day (86400 seconds)
+        set_transient('last_updated_date', $last_updated, 86400);
+    }
+
+    return $last_updated;
+}
+
+function clear_last_updated_transient_on_post_save($post_id) {
+    // If this is just a revision, don't do anything
+    if (wp_is_post_revision($post_id)) {
+        return;
+    }
+
+    // Clear the transient
+    delete_transient('last_updated_date');
+}
+
+add_action('save_post', 'clear_last_updated_transient_on_post_save');

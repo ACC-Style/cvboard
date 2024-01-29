@@ -25,10 +25,10 @@ function codewp_render_custom_posts_pillars($atts)
 
     if ($query->have_posts()) {
         if ($atts['layout'] === 'home') {
-            echo '<ul class="gap_5:lg gap_4 columns_1 columns_3:lg grid ul_none">';
+            echo '<ul class="gap_5:lg gap_4 columns_1 columns_3:lg grid ul_none reading-typography">';
 
         } else {
-            echo '<ul class="gap_5:lg gap_4 flex flex_column ul_none">';
+            echo '<ul class="gap_5:lg gap_4 flex flex_column ul_none reading-typography">';
         };
         while ($query->have_posts()) {
             $query->the_post();
@@ -45,7 +45,7 @@ function codewp_render_custom_posts_pillars($atts)
 
             <li class="wrapper-container" id="<?php echo $html_id; ?>">
                     <div class="flex flex_row:md flex_column gap-x_5">
-                        <figure class="flex_none:md flex_20:md grid items_center justify_center"><img fetchpriority="high" decoding="async" 
+                        <figure class="flex_none:md flex_20:md grid items_center justify_center max-w_20 m_auto"><img fetchpriority="high" decoding="async" 
                         src="<?php echo esc_url($image_src_url); ?>" alt="<?php echo $title; ?>" 
                         srcset="<?php echo $image_srcset_url; ?>" sizes="(max-width: 251px) 100vw, 251px"></figure>
                         <div>
@@ -56,7 +56,7 @@ function codewp_render_custom_posts_pillars($atts)
                             <?php
                             if ($atts['layout'] === 'home') {
                                 echo '<p>' . $short_text . '</p>';
-                                echo '<a href="' . $url . '" class="link expanded-click-area">Read More <i class="fas fa-solid fa-arrow-right" aria-hidden="true"></i></a>';
+                                echo '<!-- <a href="' . $url . '" class="link expanded-click-area">Read More <i class="fas fa-solid fa-arrow-right" aria-hidden="true"></i></a> -->';
                             } else {
                                 echo '<p>' . $long_text . '</p>';
                             }

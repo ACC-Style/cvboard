@@ -1,6 +1,18 @@
 </div>
 <div id="subfooter" class="bg_secondary-n3 br-t_3 br_solid br_primary c_white font_n2 p-x_4 p-y_4 grid grid-page-layout m-t_auto">
+
+
+
 <ul class="ul_none display_none:print breakout ul_inline-pipe">
+    <li class="m-r_auto">
+        <?php
+    $logo_url = wp_get_attachment_image_url(get_theme_mod('alternate_logo'), 'full');
+
+    if ($logo_url) {
+        echo '<a href="'.esc_url(home_url('/')).'" class="custom-logo-link" rel="home" itemprop="url"><img src="'.esc_url($logo_url).'" class="custom-logo" alt="'.get_bloginfo('name').'" /></a>';
+    }
+?>
+    </li>
     <?php
         $pages = [
             'cookie-policy' => 'Privacy Policy',
@@ -20,12 +32,9 @@
 </ul><!-- /footer-bottom-links -->
 
     <div class="flex flex_column flex_row:lg breakout">
-        <div class="flex_auto ">
-            <p class="legal p-t_3 font_n2">© 2023 American College of Cardiology Foundation. All rights reserved.</p>
-        </div>
-        <div class="flex_auto m-l_auto">
+        <div class="flex_auto m-3_auto">
                 <p class="text_right:lg p-t_3:lg p-r_3">
-                    <span id="last-updated-date">Last Updated September 2023</span>
+                    <span id="last-updated-date"><?php echo 'Last Updated: ' . get_last_updated_date(); ?></span>
                 </p>
         </div>
     </div>

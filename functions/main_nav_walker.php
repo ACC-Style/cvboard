@@ -41,7 +41,7 @@ class Custom_Walker_Nav_Menu extends Walker_Nav_Menu
 
 
         if ($depth === 0 && in_array('menu-item-has-children', $item->classes)) {
-            $output .= '<div class="relative isolation_isolate br-r_1 br-l_1 br_0 br_solid br_white-3">';
+            $output .= '<div class="relative isolation_isolate br-r_1 br-l_1 br_0 br_solid br_primary-3">';
             // Parent link button
             $output .= '<a  href="'.$atts['href'] .'" class="'.$atts['class'] .' p-l_5 p-l_6:lg">' . apply_filters('the_title', $item->title, $item->ID) . '</a>';
         }
@@ -77,7 +77,7 @@ class Custom_Walker_Nav_Menu extends Walker_Nav_Menu
     public function start_lvl(&$output, $depth = 0, $args = array()) {
         if ($depth === 0) {
             // Dropdown toggle button
-            $output .= '<button class="absolute b_0 bg_transparent br_square br_transparent c_white expanded-click-area h:bg_accent h:c_white h:undecorated inline-block l_0 not-link p-x_2 p-x_4:lg relative t_0 undecorated z_2 h:bg_accent" data-bs-toggle="dropdown" aria-expanded="false">';
+            $output .= '<button class="absolute b_0 bg_transparent br_square br_transparent c_primary expanded-click-area h:bg_accent h:c_white h:undecorated inline-block l_0 not-link p-x_2 p-x_4:lg relative t_0 undecorated z_2 h:bg_accent" data-bs-toggle="dropdown" aria-expanded="false">';
             $output .= '<span class="visually-hidden">Toggle Dropdown</span> <i class="fas fa-solid  faw icon-toggle_plus-minus "></i>';
             $output .= '</button>';
         }
