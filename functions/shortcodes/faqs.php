@@ -103,7 +103,7 @@ function display_faqs_by_category($category_slug, $exclude_tagged = false ) {
                 <?php
         }
     } else {
-        echo '<p>No FAQs found' . (empty($category_slug) ? '.' : ' in this category.') . '</p>';
+        // echo '<p>No FAQs found' . (empty($category_slug) ? '.' : ' in this category.') . '</p>';
     }
 
     wp_reset_postdata();

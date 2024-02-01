@@ -4,7 +4,7 @@
 
 
 <ul class="ul_none display_none:print breakout ul_inline-pipe">
-    <li class="m-r_auto">
+    <li class="m-r_auto m-l_auto m-l_0:md block w_100 w_auto:md inline-block:md no-after m-b_n5:md ">
         <?php
     $logo_url = wp_get_attachment_image_url(get_theme_mod('alternate_logo'), 'full');
 
@@ -15,10 +15,10 @@
     </li>
     <?php
         $pages = [
-            'cookie-policy' => 'Privacy Policy',
-            'registered-user-agreement' => 'Registered User Agreement',
-            'terms-of-service' => 'Terms of Service',
-            'privacy-policy' => 'Cookie Policy'
+            #'cookie-policy' => 'Cookie Policy',
+            #'registered-user-agreement' => 'Registered User Agreement',
+            #'terms-of-service' => 'Terms of Service',
+            'privacy-policy' => 'Privacy Policy'
         ];
 
         foreach ($pages as $slug => $name) {
@@ -38,6 +38,7 @@
                 </p>
         </div>
     </div>
+    <cite class="breakout c_white-6">©2024, American College of Cardiology Foundation, American Heart Association, Hear Failure Society of America, Society for Cardiovascular Angiography and Interventions, Heart Rhythm Society</cite>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 <?php wp_footer(); ?>

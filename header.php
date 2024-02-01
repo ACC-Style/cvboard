@@ -24,13 +24,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) --> 
 <?php wp_body_open(); ?>
 
-<header id="header" role="banner" class="grid-page-layout grid:md flex flex_row t_0 l_0 r_0 z_5 bg_white">
-<nav  id="menu" role="navigation" itemscope itemtype="https://schema.org/SiteNavigationElement" class="full-width">
+<header id="header" role="banner" class="grid-page-layout grid:md t_0 l_0 r_0 z_5 bg_white">
+<nav  id="menu" role="navigation" itemscope itemtype="https://schema.org/SiteNavigationElement" class="breakout flex flex_row:md flex_column justify_center">
 
-<h1 class="left-breakout-to-center grid:md text_center justify_start items_center m_0 font_xbold c_primary">
+<h1 class="m-x_auto m-l_0:md m-b_0 self_center">
 <?php
 if ( !is_front_page()) 
-{ echo '<a class="h:undecorated c_primary h:c_accent" href="' . esc_url( home_url( '/' ) ) . '" title="' . esc_attr( get_bloginfo( 'name' ) ) . '" rel="home" itemprop="url">'; }
+{ echo '<a class="h:undecorated br_none" href="' . esc_url( home_url( '/' ) ) . '" title="' . esc_attr( get_bloginfo( 'name' ) ) . '" rel="home" itemprop="url">'; }
 ?>
 <?php if (function_exists('the_custom_logo')) {
     the_custom_logo();
