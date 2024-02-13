@@ -194,13 +194,13 @@ function blankslate_comment_count($count)
 
 function cwpai_enqueue_assets()
 {
-    wp_enqueue_style('bootstrapy', '//assets.acc.org/Arches/latest/dist/css/acc_boot.min.css'); //4.1.44925
-    wp_enqueue_style('arches', '//assets.acc.org/Arches/latest/dist/css/acc_uc.min.css');
+    wp_enqueue_style('bootstrapy', get_template_directory_uri() . '/acc_boot.min.css'); // assuming the file is in 'assets/css/'
+    wp_enqueue_style('arches', get_template_directory_uri() . '/acc_uc.min.css'); // assuming the file is in 'assets/css/'
     wp_enqueue_style('root', get_template_directory_uri() . '/style.css');
-    wp_enqueue_style('fonts', '//fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Open+Sans:wght@300..800&display=swap');
+    wp_enqueue_style('fonts', '//fonts.googleapis.com/css2?family=Red+Hat+Display:wght@200..900&family=Wix+Madefor+Display:wght@400..800&display=swap');
     wp_enqueue_script('icons', '//kit.fontawesome.com/71c9d25c4e.js', array(), '1.0', true);
-
 }
+
 add_action('wp_enqueue_scripts', 'cwpai_enqueue_assets');
 
 

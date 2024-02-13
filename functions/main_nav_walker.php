@@ -43,7 +43,7 @@ class Custom_Walker_Nav_Menu extends Walker_Nav_Menu
         if ($depth === 0 && in_array('menu-item-has-children', $item->classes)) {
             $output .= '<div class="relative isolation_isolate br-r_1 br-l_1 br_0 br_solid br_primary-3">';
             // Parent link button
-            $output .= '<a  href="'.$atts['href'] .'" class="'.$atts['class'] .' p-l_5 p-l_6:lg">' . apply_filters('the_title', $item->title, $item->ID) . '</a>';
+            $output .= '<a  href="'.$atts['href'] .'" class="'.$atts['class'] .' p-l_5 p-l_5:md p-l_6:lg">' . apply_filters('the_title', $item->title, $item->ID) . '</a>';
         }
 
         $atts = apply_filters('nav_menu_link_attributes', $atts, $item, $args, $depth);
